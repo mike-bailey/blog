@@ -28,7 +28,7 @@ twitter_username: mikebailey97
 github_username:  mike-bailey
 
 # Build settings
-remote_theme: niklasbuschmann/contrast@v2.11
+remote_theme: niklasbuschmann/contrast
 
 plugins:
   - jekyll-remote-theme
