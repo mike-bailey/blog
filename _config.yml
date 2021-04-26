@@ -29,6 +29,3 @@ github_username:  mike-bailey
 
 # Build settings
 remote_theme: niklasbuschmann/contrast
-
-plugins:
-  - jekyll-remote-theme
