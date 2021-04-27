@@ -1,17 +1,76 @@
 ---
 layout: post
-title: "I believe every human has a finite number of heartbeats. I don't intend to waste any of mine."
+title: "Addressing AWS Managed Policy"
 date: 2021-04-27 23:45:13 -0400
 background: '/img/posts/cloud-linked.jpg'
 ---
 
-<p>AWS likes to rename, replace, etc their managed policies a fair bit. Often, before for instance outright deleting one, they'll send a deprecation notice. But even with all of that, it's complicated as some people don't read their AWS emails frequently.</p>
+<p>AWS likes to rename, replace, etc their managed policies a fair bit. Often, before for instance outright deleting one, they'll send a deprecation notice. But even with all of that, it's complicated as some people don't read their AWS emails frequently. Often I have to send CloudFormation stacks to clients, so if it's referencing non-existent policies that's a bit embarrassing.
+
+<br />
+Before we get into this "meh practice" policy linting, let's talk about best practices:
+<ul>
+<i>
+    Reference policies in the context of version IDs. AWS sets the default policy version of managed policies at their discretion. Ideally they aren't making any breaking changes between their versions without notice, but it's more predictable to know a policy you rely on hasn't changed.
+</i>
+<i>
+    If you're not going to version policies, keep an eye on the latest versions, even if it's <a href="https://twitter.com/mamip_aws">a Twitter account.</a>.
+</i>
+</ul>
+</p>
+
+<p><b>This may not work 100%. It may require modification. It just works for the project in question.</b> It's a bit grimey, but Reddit asked and I'll be damned if I'm not an OP who delivers.</p>
 
 <p>Like many others, I don't typically develop my code, policies, etc <i>in</i> AWS. Sorry, CodeCommit. What we do have is a CI/CD pipeline that runs against our CodeFormation. AWS is nice enough to have a <a href="https://github.com/aws-cloudformation/cfn-python-lint">cfn-lint</a> tool to check for common mistakes, and other third party tools exist for other things, but what about existing policies?</p>
 
-<p>In my case, to avoid rotting managed policies, I'll regex </p>
-{% highlight ruby %}
-def foo
-  puts 'foo'
-end
+<p>In my case, to avoid rotting managed policies, I'll regex for arn:aws:iam::aws:policy\/([A-Za-z0-9_\-]{1,150}) in any yaml and pass the captured policy (not the ARN stub) to the below script.</p>
+{% highlight python %}
+import requests
+import sys
+import os
+
+response = requests.get("https://apigatewaystubhere.execute-api.us-east-1.amazonaws.com/v1").json()
+for policy in sys.argv[1:]:
+    if policy in response:
+        print("Checking {0}".format(policy))
+        print("Passed")
+    else:
+        print("Non-existent policy: {0}".format(policy))
+        sys.exit(1)
+sys.exit(0)
 {% endhighlight %}
+
+<p>As for the API Gateway, it passes to a lambda function that simply returns:</p>
+{% highlight python %}
+import json
+import boto3 
+
+def lambda_handler(event, context):
+    client = boto3.client('iam')
+    policy_names = []
+    isTruncated = True
+    marker = False
+    while isTruncated:
+        if marker:
+            response = client.list_policies(
+                Scope='AWS',
+                Marker=marker
+            )
+        else:
+            response = client.list_policies(
+                Scope='AWS'
+            )
+        for policy in response['Policies']:
+            policy_names += [policy['PolicyName']]
+        isTruncated = response['IsTruncated']
+        if 'Marker' in response:
+            marker = response['Marker']
+    return {
+        'statusCode': 200,
+        'body': json.dumps(policy_names)
+    }
+{% endhighlight %}
+
+<p>All this will do is return a list of policy names latest to AWS when calling the API Gateway. Feel free to put the API Gateway behind any necessary security, WAF, etc.</p>
+
+<p>So what we have is a script pulling each policy name, comparing them against AWS, and throwing an error if one doesn't exist in AWS. Running this on push works, like most CI, but running it on a schedule is probably better.</p>
