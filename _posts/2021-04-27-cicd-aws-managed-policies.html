@@ -19,9 +19,9 @@ Before we get into this "meh practice" policy linting, let's talk about best pra
 </ul>
 </p>
 
-<p><b>This may not work 100%. It may require modification. It just works for the project in question.</b> It's a bit grimey, but Reddit asked and I'll be damned if I'm not an OP who delivers.</p>
+<p><b>This may not work 100%. It may require modification. It just works for our niche project in question.</b> It's a bit grimey, but Reddit asked and I'll be damned if I'm not an OP who delivers.</p>
 
-<p>Like many others, I don't typically develop my code, policies, etc <i>in</i> AWS. Sorry, CodeCommit. What we do have is a CI/CD pipeline that runs against our CodeFormation. AWS is nice enough to have a <a href="https://github.com/aws-cloudformation/cfn-python-lint">cfn-lint</a> tool to check for common mistakes, and other third party tools exist for other things, but what about existing policies?</p>
+<p>Like many others, I don't typically develop my code, policies, etc <i>in</i> AWS. Sorry, CodeCommit. What we do have is a CI/CD pipeline that runs against our CodeFormation. AWS is nice enough to have a <a href="https://github.com/aws-cloudformation/cfn-python-lint">cfn-lint</a> tool to check for common mistakes, and other third party tools exist for other things, but what about referncing policies that exist? The Cfn may be well formed that references something that doesn't exist at all.</p>
 
 <p>In my case, to avoid rotting managed policies, I'll regex for arn:aws:iam::aws:policy\/([A-Za-z0-9_\-]{1,150}) in any yaml and pass the captured policy (not the ARN stub) to the below script.</p>
 {% highlight python %}
@@ -31,8 +31,8 @@ import os
 
 response = requests.get("https://apigatewaystubhere.execute-api.us-east-1.amazonaws.com/v1").json()
 for policy in sys.argv[1:]:
+    print("Checking {0}".format(policy))
     if policy in response:
-        print("Checking {0}".format(policy))
         print("Passed")
     else:
         print("Non-existent policy: {0}".format(policy))
@@ -40,7 +40,7 @@ for policy in sys.argv[1:]:
 sys.exit(0)
 {% endhighlight %}
 
-<p>As for the API Gateway, it passes to a lambda function that simply returns:</p>
+<p>As for the API Gateway, it passes to a lambda function that runs this:</p>
 {% highlight python %}
 import json
 import boto3 
