@@ -14,7 +14,7 @@ Before we get into this "meh practice" policy linting, let's talk about best pra
     Reference policies in the context of version IDs. AWS sets the default policy version of managed policies at their discretion. Ideally they aren't making any breaking changes between their versions without notice, but it's more predictable to know a policy you rely on hasn't changed.
 </li>
 <li>
-    If you're not going to version policies, keep an eye on the latest versions, even if it's <a href="https://twitter.com/mamip_aws">a Twitter account.</a>.
+    If you're not going to version policies, keep an eye on the latest versions, even if it's <a href="https://twitter.com/mamip_aws">a Twitter account</a>.
 </li>
 </ul>
 </p>
@@ -23,13 +23,14 @@ Before we get into this "meh practice" policy linting, let's talk about best pra
 
 <p>Like many others, I don't typically develop my code, policies, etc <i>in</i> AWS. Sorry, CodeCommit. What we do have is a CI/CD pipeline that runs against our CodeFormation. AWS is nice enough to have a <a href="https://github.com/aws-cloudformation/cfn-python-lint">cfn-lint</a> tool to check for common mistakes, and other third party tools exist for other things, but what about referncing policies that exist? The Cfn may be well formed that references something that doesn't exist at all.</p>
 
-<p>In my case, to avoid rotting managed policies, I'll regex for arn:aws:iam::aws:policy\/([A-Za-z0-9_\-]{1,150}) in any yaml and pass the captured policy (not the ARN stub) to the below script.</p>
+<p>In my case, to avoid rotting managed policies, in our CI (without disclosing individual internal stacks) I'll regex for arn:aws:iam::aws:policy\/([A-Za-z0-9_\-]{1,150}) in any yaml and pass the captured policy (not the ARN stub) to the below script.</p>
 {% highlight python %}
 import requests
 import sys
 import os
-
+# Pull down the API gateway, explained later
 response = requests.get("https://apigatewaystubhere.execute-api.us-east-1.amazonaws.com/v1").json()
+# Get the policy as an argument 
 for policy in sys.argv[1:]:
     print("Checking {0}".format(policy))
     if policy in response:
@@ -50,6 +51,7 @@ def lambda_handler(event, context):
     policy_names = []
     isTruncated = True
     marker = False
+    # There may be a ton of policies so we need to paginate
     while isTruncated:
         if marker:
             response = client.list_policies(
