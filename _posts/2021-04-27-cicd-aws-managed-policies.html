@@ -5,7 +5,7 @@ date: 2021-04-27 23:45:13 -0400
 background: '/img/posts/cloud-linked.jpg'
 ---
 
-<p>AWS likes to rename, replace, etc their managed policies a fair bit. Often, before for instance outright deleting one, they'll send a deprecation notice. But even with all of that, it's complicated as some people don't read their AWS emails frequently. Sometimes I and a few others have to send tailored temporary CloudFormation stacks to clients, so if it's referencing non-existent policies that's a bit embarrassing.
+<p>AWS likes to rename, replace, etc their managed policies a fair bit. Generally, before (for instance) outright deleting one, they'll send a deprecation notice. But even with all of that, it's complicated as some people don't read their AWS emails frequently. Sometimes I and a few others have to send tailored temporary CloudFormation stacks to clients, so if it's referencing non-existent policies that's a bit embarrassing on our part. Manual testing is obviously an answer, but in 2021 what we do manually we should try to automate at this point.
 
 <br />
 Before we get into this "meh practice" policy linting, let's talk about best practices:
