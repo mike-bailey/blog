@@ -1,0 +1,17 @@
+---
+layout: post
+title: "I believe every human has a finite number of heartbeats. I don't intend to waste any of mine."
+date: 2021-04-27 23:45:13 -0400
+background: '/img/posts/cloud-linked.jpg'
+---
+
+<p>AWS likes to rename, replace, etc their managed policies a fair bit. Often, before for instance outright deleting one, they'll send a deprecation notice. But even with all of that, it's complicated as some people don't read their AWS emails frequently.</p>
+
+<p>Like many others, I don't typically develop my code, policies, etc <i>in</i> AWS. Sorry, CodeCommit. What we do have is a CI/CD pipeline that runs against our CodeFormation. AWS is nice enough to have a <a href="https://github.com/aws-cloudformation/cfn-python-lint">cfn-lint</a> tool to check for common mistakes, and other third party tools exist for other things, but what about existing policies?</p>
+
+<p>In my case, to avoid rotting managed policies, I'll regex </p>
+{% highlight ruby %}
+def foo
+  puts 'foo'
+end
+{% endhighlight %}
