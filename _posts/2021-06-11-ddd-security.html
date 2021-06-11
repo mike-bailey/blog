@@ -9,13 +9,13 @@ background: '/img/posts/coolgit.jpeg'
 <blockquote>
 An object-oriented architectural style focused on modeling a business domain and defining business objects based on entities within the business domain.
 </blockquote>
-<p>Typically, it's a pretty strictly software devleopment term. I don't intend to invent a new term, nor do I intend to fit a circle block through a square peg by directly indicating it's something internal security teams can "implement." I believe that would be trivializing it as a relatively complex style. It's also not particularly helpful to security teams.<p>
-<p>Nowadays I flip between security and development in my career. Part of this is becauuse I gravitate to the development community but the security work more, but I digress. I was Security Engineer, a Consultant, just an "Engineer" (dev), a DevOps Engineer, all within a couple years at Unit 42.</p>
+<p>Typically, it's a strictly software development term. I don't intend to invent a new term, nor do I intend to fit a circle block through a square peg by directly indicating it's something internal security teams can "implement." I believe that would be trivializing it as a relatively complex style. It's also not particularly helpful to security teams.<p>
+<p>Nowadays I flip between security and development in my career. Part of this is because I gravitate to the development community but the security work more, but I digress. I was Security Engineer, a consultant, just an "Engineer" (dev), a DevOps Engineer, all within a couple years at Unit 42.</p>
 <p>What I've found interesting is they seem to use different words to describe the same things, or vice versa. Maybe it's because they're (arguably marginally) different. Maybe because it's just easier. Maybe it's because they don't talk. Who knows.</p>
-<p>Securty hardening assessments often target domains too! And not like michaelbailey.co domains! The ones I personally see, they typically target two (or a combination of) kinds of domains, a business domain or security domain. Let's look at a business domains. <a href="https://softwareengineering.stackexchange.com/questions/314834/business-domain-vs-technical-domain">This StackExchange answer</a> does a pretty decent job fleshing it out, with some bonus content on how it contrasts against technical domains.</p>
+<p>Security hardening assessments often target domains too! And not like michaelbailey.co domains! The ones I personally see, they typically target two (or a combination of) kinds of domains, a business domain or security domain. Let's look at business domains. <a href="https://softwareengineering.stackexchange.com/questions/314834/business-domain-vs-technical-domain">This StackExchange answer</a> does a decent job fleshing it out, with some bonus content on how it contrasts against technical domains.</p>
 <p>And while nobody can seemingly agree on how many security domains there are...<br />
-<img src="/blog/img/posts/securitydomains.png" /><br />
-I like the (ISC)<superscript>2</superscript> on this:
+<img src="/blog/img/posts/securitydomains.png" width="400px" /><br />
+I like the (ISC)<superscript>2</superscript>'s models on this:
 <blockquote>
 1. Introduction to Security and Risk Management<br />
 2. Asset Security<br />
@@ -27,7 +27,10 @@ I like the (ISC)<superscript>2</superscript> on this:
 8. Software Development Security
 </blockquote>
 <p>
-    As we enter a development project, or a security audit, we're left with a decision: Do I categorize by technical domains or business domains? Typically, security hardening audits categorize by technical domains (network, app, IAM, etc), but security also famously struggles to communicate what they're doing effectively. If it makes sense to organize code and object structures via business domain models, despite being a bit more expensive, is easier to communicate, extend and test (as described by Microsoft in the scope of software design). Could we not make similiar arguments for using business domains in a security audit? While the use of technical domains introduces less backend complexity, would it be easier to communicate impact if audit work was broken into respective business domains, whether that's departments, products or units? How can you reap the benefits of both, through a hybrid perhaps by which technical domains exist in business domains? In my opinion, I consider this one of many areas for one industry (security) to learn from another (development) about planning to the benefit of security yielding the immense amount of research, case studies and criticisms around development product planning.
+    As we enter a development project, or a security audit, we're left with a decision: Do I categorize by technical domains or business domains? Typically, security hardening audits categorize by technical domains (network, app, IAM, etc), but security also famously struggles to communicate what they're doing effectively. If it makes sense to organize code and object structures via business domain models, despite being a bit more expensive, is easier to communicate, extend and test (as described by Microsoft in the scope of software design).
+</p>
+<p>
+    Could we not make similar arguments for using business domains in a security audit? While the use of technical domains introduces less backend complexity, would it be easier to communicate impact if audit work was broken into respective business domains, whether that's departments, products or units? How can you reap the benefits of both, through a hybrid perhaps by which technical domains exist in business domains? In my opinion, I consider this one of many areas for one industry (security) to learn from another (development) about planning to the benefit of security yielding the immense amount of research, case studies and criticisms around development product planning.
 </p>
 <br /><br />
 <p><i>*Please God do not take this as an ISC endorsement. I've heard several conflicting things about them.</i></p>
