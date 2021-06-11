@@ -14,7 +14,7 @@ An object-oriented architectural style focused on modeling a business domain and
 <p>What I've found interesting is they seem to use different words to describe the same things, or vice versa. Maybe it's because they're (arguably marginally) different. Maybe because it's just easier. Maybe it's because they don't talk. Who knows.</p>
 <p>Securty hardening assessments often target domains too! And not like michaelbailey.co domains! The ones I personally see, they typically target two (or a combination of) kinds of domains, a business domain or security domain. Let's look at a business domains. <a href="https://softwareengineering.stackexchange.com/questions/314834/business-domain-vs-technical-domain">This StackExchange answer</a> does a pretty decent job fleshing it out, with some bonus content on how it contrasts against technical domains.</p>
 <p>And while nobody can seemingly agree on how many security domains there are...<br />
-<img src="/img/posts/securitydomains.png" /><br />
+<img src="/blog/img/posts/securitydomains.png" /><br />
 I like the (ISC)<superscript>2</superscript> on this:
 <blockquote>
 1. Introduction to Security and Risk Management<br />
@@ -27,7 +27,7 @@ I like the (ISC)<superscript>2</superscript> on this:
 8. Software Development Security
 </blockquote>
 <p>
-    As we enter a development project, or a security audit, we're left with a decision: Do I categorize by technical domains or business domains? Typically, security audits categorize by technical domains, but security also famously struggles to communicate what they're doing effectively. If it makes sense to organize code and object structures via business domain models, despite being a bit more expensive (due to t) Again, it's not a direct re-implementation, but Microsoft describes this 
+    As we enter a development project, or a security audit, we're left with a decision: Do I categorize by technical domains or business domains? Typically, security hardening audits categorize by technical domains (network, app, IAM, etc), but security also famously struggles to communicate what they're doing effectively. If it makes sense to organize code and object structures via business domain models, despite being a bit more expensive, is easier to communicate, extend and test (as described by Microsoft in the scope of software design). Could we not make similiar arguments for using business domains in a security audit? While the use of technical domains introduces less backend complexity, would it be easier to communicate impact if audit work was broken into respective business domains, whether that's departments, products or units? How can you reap the benefits of both, through a hybrid perhaps by which technical domains exist in business domains? In my opinion, I consider this one of many areas for one industry (security) to learn from another (development) about planning to the benefit of security yielding the immense amount of research, case studies and criticisms around development product planning.
 </p>
 <br /><br />
 <p><i>*Please God do not take this as an ISC endorsement. I've heard several conflicting things about them.</i></p>
